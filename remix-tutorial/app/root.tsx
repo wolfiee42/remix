@@ -4,17 +4,23 @@ import {
   Links,
   Meta,
   Outlet,
+  redirect,
   Scripts,
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
 import appStylesHref from "./app.css";
 import { json, LinksFunction } from "@remix-run/node";
-import { ContactRecord, getContacts } from "./data";
+import { createEmptyContact, ContactRecord, getContacts } from "./data";
 
 export const loader = async () => {
   const contacts = await getContacts();
   return json({ contacts });
+};
+
+export const action = async () => {
+  const contact = await createEmptyContact();
+  return redirect(`/contacts/${contact.id}/edit`);
 };
 export default function App() {
   const { contacts } = useLoaderData<typeof loader>();
@@ -69,7 +75,7 @@ export default function App() {
             </p>
           )}
         </div>
-        <div className="detail">
+        <div id="detail">
           <Outlet />
         </div>
         <ScrollRestoration />
