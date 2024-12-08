@@ -4,7 +4,7 @@ export async function getPostListItems() {
   return prisma.post.findMany({ select: { slug: true, title: true } });
 }
 
-// 🐨 create a new function here called "getPost"
-// that takes a slug and returns a post
-// 💰 use the prisma.post.findUnique function
-// with the "where" option set to { slug }
+// @ts-expect-error we'll fix this in extra credit
+export async function getPost(slug) {
+  return prisma.post.findUnique({ where: { slug } });
+}
